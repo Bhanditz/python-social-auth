@@ -22,14 +22,6 @@ class BaseISCAuth(object):
         """Use isc username as unique id"""
         return details['username']
 
-    def clean_username(self, username):
-        """ check if the username is an email and extracit,
-        also remove specil chars """
-        is_email = len(re.findall(r'[^@]+@[^@]+\.[^@]+', username))
-        if len(re.findall(r'[^@]+@[^@]+\.[^@]+', username)) > 0:
-            username = username.split('@')[0]
-        return ''.join(e for e in username if e.isalnum())
-
     def get_user_details(self, response):
         """Get the username form ISC OAuth"""
         user_data = response.get('user_data')
@@ -38,8 +30,8 @@ class BaseISCAuth(object):
             user_data.get('email', ''),
             user_data.get('name', '')
         )
-        cleaned_username = self.clean_username(username)
-        return {'username': cleaned_username,
+
+        return {'username': username,
                 'email': email,
                 'fullname': fullname}
 
