@@ -59,7 +59,7 @@ class BaseISCOAuth2API(BaseISCAuth):
 
     def user_data(self, access_token, *args, **kwargs):
         """Return user data from ISC API"""
-        url = 'https://login.intersystems.com/uat/oauth2/userinfo'
+        url = 'https://login.intersystems.com/oauth2/userinfo'
         encoded_response = self.request(url, params={
             'access_token': access_token,
             'alt': 'json'
@@ -82,10 +82,10 @@ class ISCOAuth2(BaseISCOAuth2API, BaseOAuth2):
     """ISC OAuth2 authentication backend"""
     name = 'isc-oauth2'
     REDIRECT_STATE = False
-    AUTHORIZATION_URL = 'https://login.intersystems.com/uat/oauth2/authorize'
-    ACCESS_TOKEN_URL = 'https://login.intersystems.com/uat/oauth2/token'
+    AUTHORIZATION_URL = 'https://login.intersystems.com/oauth2/authorize'
+    ACCESS_TOKEN_URL = 'https://login.intersystems.com/oauth2/token'
     ACCESS_TOKEN_METHOD = 'POST'
-    REVOKE_TOKEN_URL = 'https://login.intersystems.com/uat/oauth2/revocation'
+    REVOKE_TOKEN_URL = 'https://login.intersystems.com/oauth2/revocation'
     REVOKE_TOKEN_METHOD = 'GET'
     # The order of the default scope is important
     DEFAULT_SCOPE = ['openid', 'email', 'profile']
