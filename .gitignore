@@ -44,3 +44,5 @@ changelog.sh
 .DS_Store
 .\#*
 \#*\#
+
+examples/django_example/onelogin

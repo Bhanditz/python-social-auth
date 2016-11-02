@@ -37,8 +37,23 @@ class BaseAuth(object):
         else:
             return self.strategy.html(self.auth_html())
 
+    def end(self):
+        """Must return redirect SLO URL to auth provider"""
+        raise NotImplementedError('Implement in subclass')
+
     def complete(self, *args, **kwargs):
         return self.auth_complete(*args, **kwargs)
+
+    def complete_logout(self, *args, **kwargs):
+        pipeline = self.strategy.get_logout_pipeline()
+        if 'pipeline_index' in kwargs:
+            pipeline = pipeline[kwargs['pipeline_index']:]
+        kwargs['name'] = self.name
+        kwargs['user_storage'] = self.strategy.storage.user
+
+        something = self.logout_complete(*args, **kwargs)
+
+        return self.run_pipeline(pipeline, *args, **kwargs)
 
     def auth_url(self):
         """Must return redirect URL to auth provider"""
@@ -50,6 +65,10 @@ class BaseAuth(object):
 
     def auth_complete(self, *args, **kwargs):
         """Completes loging process, must return user instance"""
+        raise NotImplementedError('Implement in subclass')
+
+    def logout_complete(self, *args, **kwargs):
+        """Completes logout process, must return user instance"""
         raise NotImplementedError('Implement in subclass')
 
     def process_error(self, data):

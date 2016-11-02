@@ -4,7 +4,7 @@ import hashlib
 
 from social.utils import setting_name, module_member
 from social.store import OpenIdStore, OpenIdSessionWrapper
-from social.pipeline import DEFAULT_AUTH_PIPELINE, DEFAULT_DISCONNECT_PIPELINE
+from social.pipeline import DEFAULT_AUTH_PIPELINE, DEFAULT_DISCONNECT_PIPELINE, DEFAULT_LOGOUT_PIPELINE
 from social.pipeline.utils import partial_from_session, partial_to_session
 
 
@@ -99,6 +99,9 @@ class BaseStrategy(object):
 
     def get_disconnect_pipeline(self):
         return self.setting('DISCONNECT_PIPELINE', DEFAULT_DISCONNECT_PIPELINE)
+
+    def get_logout_pipeline(self):
+        return self.setting('LOGOUT_PIPELINE', DEFAULT_LOGOUT_PIPELINE)
 
     def random_string(self, length=12, chars=ALLOWED_CHARS):
         # Implementation borrowed from django 1.4
