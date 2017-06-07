@@ -27,6 +27,8 @@ def do_auth(backend, redirect_name='next'):
         )
     return backend.start()
 
+def do_slo(backend, redirect_name='next', *args, **kwargs):
+    return backend.end()
 
 def do_complete(backend, login, user=None, redirect_name='next',
                 *args, **kwargs):
@@ -93,6 +95,24 @@ def do_complete(backend, login, user=None, redirect_name='next',
     if backend.setting('SANITIZE_REDIRECTS', True):
         url = sanitize_redirect(backend.strategy.request_host(), url) or \
               backend.setting('LOGIN_REDIRECT_URL')
+    return backend.strategy.redirect(url)
+
+def do_complete_logout(backend, user=None, redirect_name='next',
+                *args, **kwargs):
+    data = backend.strategy.request_data()
+
+    is_authenticated = user_is_authenticated(user)
+    user = is_authenticated and user or None
+
+    partial = partial_pipeline_data(backend, user, *args, **kwargs)
+    if partial:
+        xargs, xkwargs = partial
+        response = backend.continue_pipeline(*xargs, **xkwargs)
+    else:
+        response = backend.complete_logout(user=user, *args, **kwargs)
+
+    url = backend.setting('LOGOUT_REDIRECT_URL', '/')
+
     return backend.strategy.redirect(url)
 
 

@@ -6,7 +6,7 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.cache import never_cache
 
 from social.utils import setting_name
-from social.actions import do_auth, do_complete, do_disconnect
+from social.actions import do_auth, do_slo, do_complete, do_complete_logout, do_disconnect
 from social.apps.django_app.utils import psa
 
 
@@ -18,6 +18,11 @@ NAMESPACE = getattr(settings, setting_name('URL_NAMESPACE'), None) or 'social'
 def auth(request, backend):
     return do_auth(request.backend, redirect_name=REDIRECT_FIELD_NAME)
 
+@never_cache
+@psa('{0}:end'.format(NAMESPACE))
+def slo(request, backend):
+    return do_slo(request.backend, redirect_name=REDIRECT_FIELD_NAME)
+
 
 @never_cache
 @csrf_exempt
@@ -25,6 +30,14 @@ def auth(request, backend):
 def complete(request, backend, *args, **kwargs):
     """Authentication complete view"""
     return do_complete(request.backend, _do_login, request.user,
+                       redirect_name=REDIRECT_FIELD_NAME, *args, **kwargs)
+
+@never_cache
+@csrf_exempt
+@psa('{0}:complete_logout'.format(NAMESPACE))
+def complete_logout(request, backend, *args, **kwargs):
+    """Authentication complete view"""
+    return do_complete_logout(request.backend, request.user,
                        redirect_name=REDIRECT_FIELD_NAME, *args, **kwargs)
 
 

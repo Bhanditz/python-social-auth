@@ -57,3 +57,5 @@ DEFAULT_DISCONNECT_PIPELINE = (
     # Removes the social associations.
     'social.pipeline.disconnect.disconnect'
 )
+
+DEFAULT_LOGOUT_PIPELINE = ()

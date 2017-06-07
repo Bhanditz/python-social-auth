@@ -9,7 +9,6 @@ except ImportError:
 
 from social.utils import setting_name
 
-
 extra = getattr(settings, setting_name('TRAILING_SLASH'), True) and '/' or ''
 
 
@@ -19,6 +18,10 @@ urlpatterns = patterns('social.apps.django_app.views',
         name='begin'),
     url(r'^complete/(?P<backend>[^/]+){0}$'.format(extra), 'complete',
         name='complete'),
+    url(r'^logout/(?P<backend>[^/]+){0}$'.format(extra), 'slo',
+        name='end'),
+    url(r'^complete_logout/(?P<backend>[^/]+){0}$'.format(extra), 'complete_logout',
+        name='complete_logout'),
     # disconnection
     url(r'^disconnect/(?P<backend>[^/]+){0}$'.format(extra), 'disconnect',
         name='disconnect'),
