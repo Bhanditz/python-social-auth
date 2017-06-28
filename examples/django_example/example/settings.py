@@ -248,6 +248,8 @@ TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 SOCIAL_AUTH_TRINITY_KEY = ''
 SOCIAL_AUTH_TRINITY_SECRET = ''
 
+VERIFY_SSL = False
+
 try:
     from example.local_settings import *
 except ImportError:

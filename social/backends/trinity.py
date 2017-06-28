@@ -1,17 +1,29 @@
 from social.backends.oauth import BaseOAuth2
+from urllib import urlencode
 
 class TrinityOauth2(BaseOAuth2):
     name = 'trinity'
+    REDIRECT_STATE = False # ????
     AUTHORIZATION_URL = 'https://master-7rqtwti-yv37y7tzqm5f4.us.platform.sh/oauth/v2/auth'
     ACCESS_TOKEN_URL = 'https://master-7rqtwti-yv37y7tzqm5f4.us.platform.sh/oauth/v2/token'
+    ACCESS_TOKEN_METHOD = 'POST'
     SCOPE_SEPARATOR = ','
-    EXTRA_DATA = []
+    #DEFAULT_SCOPE = ['email']
+    EXTRA_DATA = [
+        ('email', 'email'),
+        ('username', 'username'),
+        ('full_name', 'full_name'),
+    ]
 
     def get_user_details(self, response):
         """Return user details from GitHub account"""
-        return {'username': response.get('login'),
+        fullname, first_name, last_name = self.get_user_names(
+            '', response.get('first_name', ''),response.get('last_name', '')
+        )
+        data = {'username': response.get('username'),
                 'email': response.get('email') or '',
-                'first_name': response.get('name')}
+                'full_name': fullname or ''}
+        return data
 
     def user_data(self, access_token, *args, **kwargs):
         """Loads user data from service"""
@@ -19,6 +31,10 @@ class TrinityOauth2(BaseOAuth2):
             'access_token': access_token
         })
         return self.get_json(url)
+
+    def get_user_id(self, details, response):
+        """Use isc username as unique id"""
+        return details['username']
 
     def oauth_authorization_request(self, token):
         """Generate OAuth request to authorize token."""
