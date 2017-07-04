@@ -1,3 +1,5 @@
+import json
+
 from social.backends.oauth import BaseOAuth2
 from urllib import urlencode
 
@@ -13,6 +15,7 @@ class TrinityOauth2(BaseOAuth2):
         ('email', 'email'),
         ('username', 'username'),
         ('full_name', 'full_name'),
+        ('is_staff', 'is_staff'),
     ]
 
     def get_user_details(self, response):
@@ -23,6 +26,11 @@ class TrinityOauth2(BaseOAuth2):
         data = {'username': response.get('username'),
                 'email': response.get('email') or '',
                 'full_name': fullname or ''}
+        for role_obj in response.get("api_token")["roles"]:
+            print role_obj["role"]
+            if role_obj["role"] == 'ROLE_TEACHER':
+                data['is_staff'] = 'True'
+                break
         return data
 
     def user_data(self, access_token, *args, **kwargs):

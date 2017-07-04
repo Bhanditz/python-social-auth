@@ -334,8 +334,6 @@ class BaseOAuth2(OAuthAuth):
         params.update(self.get_scope_argument())
         params.update(self.auth_extra_arguments())
         params = urlencode(params)
-        print '#######'
-        print params
         if not self.REDIRECT_STATE:
             # redirect_uri matching is strictly enforced, so match the
             # providers value exactly.
