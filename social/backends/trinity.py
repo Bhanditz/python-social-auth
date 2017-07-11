@@ -14,7 +14,7 @@ class TrinityOauth2(BaseOAuth2):
     EXTRA_DATA = [
         ('email', 'email'),
         ('username', 'username'),
-        ('fullname', 'full_name'),
+        ('fullname', 'fullname'),
         ('is_staff', 'is_staff'),
     ]
 
@@ -25,7 +25,7 @@ class TrinityOauth2(BaseOAuth2):
         )
         data = {'username': response.get('username'),
                 'email': response.get('email') or '',
-                'full_name': fullname or ''}
+                'fullname': fullname or ''}
         for role_obj in response.get("api_token")["roles"]:
             print role_obj["role"]
             if role_obj["role"] == 'ROLE_TEACHER':
