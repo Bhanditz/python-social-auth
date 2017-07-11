@@ -14,7 +14,7 @@ class TrinityOauth2(BaseOAuth2):
     EXTRA_DATA = [
         ('email', 'email'),
         ('username', 'username'),
-        ('full_name', 'full_name'),
+        ('fullname', 'full_name'),
         ('is_staff', 'is_staff'),
     ]
 
