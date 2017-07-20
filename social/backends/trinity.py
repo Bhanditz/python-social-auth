@@ -15,7 +15,7 @@ class TrinityOauth2(BaseOAuth2):
         ('email', 'email'),
         ('username', 'username'),
         ('fullname', 'fullname'),
-        ('is_staff', 'is_staff'),
+        ('district', 'district'),
     ]
 
     def get_user_details(self, response):
@@ -25,12 +25,8 @@ class TrinityOauth2(BaseOAuth2):
         )
         data = {'username': response.get('username'),
                 'email': response.get('email') or '',
-                'fullname': fullname or ''}
-        for role_obj in response.get("api_token")["roles"]:
-            print role_obj["role"]
-            if role_obj["role"] == 'ROLE_TEACHER':
-                data['is_staff'] = 'True'
-                break
+                'fullname': fullname or '',
+                'district': '228905'} # hardcoded value for test purposes
         return data
 
     def user_data(self, access_token, *args, **kwargs):
