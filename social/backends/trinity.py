@@ -31,7 +31,7 @@ class TrinityOauth2(BaseOAuth2):
 
     def user_data(self, access_token, *args, **kwargs):
         """Loads user data from service"""
-        url = 'https://pass-staging.texasgateway.org/api/v1/user/me' + urlencode({
+        url = 'https://pass-staging.texasgateway.org/api/v1/user/me?' + urlencode({
             'access_token': access_token
         })
         return self.get_json(url)
