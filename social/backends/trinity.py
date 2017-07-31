@@ -26,7 +26,7 @@ class TrinityOauth2(BaseOAuth2):
         data = {'username': response.get('username'),
                 'email': response.get('email') or '',
                 'fullname': fullname or '',
-                'district': '228905'} # hardcoded value for test purposes
+                'district': response.get('original_district')}
         return data
 
     def user_data(self, access_token, *args, **kwargs):
