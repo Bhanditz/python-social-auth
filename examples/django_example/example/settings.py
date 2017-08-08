@@ -201,7 +201,6 @@ AUTHENTICATION_BACKENDS = (
     'social.backends.vend.VendOAuth2',
     'social.backends.email.EmailAuth',
     'social.backends.username.UsernameAuth',
-    'social.backends.trinity.TrinityOauth2',
     'django.contrib.auth.backends.ModelBackend',
 
 )
