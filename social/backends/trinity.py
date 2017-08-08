@@ -19,7 +19,7 @@ class TrinityOauth2(BaseOAuth2):
     ]
 
     def get_user_details(self, response):
-        """Return user details from GitHub account"""
+        """Return user details from Trinity account"""
         fullname, first_name, last_name = self.get_user_names(
             '', response.get('first_name', ''),response.get('last_name', '')
         )
@@ -37,18 +37,5 @@ class TrinityOauth2(BaseOAuth2):
         return self.get_json(url)
 
     def get_user_id(self, details, response):
-        """Use isc username as unique id"""
+        """Use trinity username as unique id"""
         return details['username']
-
-    def oauth_authorization_request(self, token):
-        """Generate OAuth request to authorize token."""
-        if not isinstance(token, dict):
-            token = parse_qs(token)
-        params = self.auth_extra_arguments() or {}
-        params.update(self.get_scope_argument())
-        params[self.OAUTH_TOKEN_PARAMETER_NAME] = token.get(
-            self.OAUTH_TOKEN_PARAMETER_NAME
-        )
-        state = self.get_or_create_state()
-        params[self.REDIRECT_URI_PARAMETER_NAME] = self.get_redirect_uri(state)
-        return '{0}?{1}'.format(self.authorization_url(), urlencode(params))
