@@ -38,4 +38,4 @@ class TrinityOauth2(BaseOAuth2):
 
     def get_user_id(self, details, response):
         """Use trinity username as unique id"""
-        return details['username']
+        return details['email']
