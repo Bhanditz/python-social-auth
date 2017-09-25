@@ -6,8 +6,8 @@ from urllib import urlencode
 class TrinityOauth2(BaseOAuth2):
     name = 'trinity'
     REDIRECT_STATE = False # ????
-    AUTHORIZATION_URL = 'https://pass.texasgateway.org/oauth/v2/auth'
-    ACCESS_TOKEN_URL = 'https://pass.texasgateway.org/oauth/v2/token'
+    AUTHORIZATION_URL = 'https://pass-staging.texasgateway.org/oauth/v2/auth'
+    ACCESS_TOKEN_URL = 'https://pass-staging.texasgateway.org/oauth/v2/token'
     ACCESS_TOKEN_METHOD = 'POST'
     SCOPE_SEPARATOR = ','
     #DEFAULT_SCOPE = ['email']
@@ -31,7 +31,7 @@ class TrinityOauth2(BaseOAuth2):
 
     def user_data(self, access_token, *args, **kwargs):
         """Loads user data from service"""
-        url = 'https://pass.texasgateway.org/api/v1/user/me?' + urlencode({
+        url = 'https://pass-staging.texasgateway.org/api/v1/user/me?' + urlencode({
             'access_token': access_token
         })
         return self.get_json(url)
